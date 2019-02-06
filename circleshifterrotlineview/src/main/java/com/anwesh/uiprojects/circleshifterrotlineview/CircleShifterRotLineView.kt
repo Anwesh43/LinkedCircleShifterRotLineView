@@ -222,4 +222,13 @@ class CircleShifterRotLineView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : CircleShifterRotLineView {
+            val view : CircleShifterRotLineView = CircleShifterRotLineView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
