@@ -199,4 +199,26 @@ class CircleShifterRotLineView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : CircleShifterRotLineView) {
+
+        private val animator : Animator = Animator(view)
+        private val csrl : CircleShifterRotLine = CircleShifterRotLine(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            csrl.draw(canvas, paint)
+            animator.animate {
+                csrl.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            csrl.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
