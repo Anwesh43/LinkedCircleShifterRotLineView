@@ -12,14 +12,15 @@ import android.graphics.Color
 import android.app.Activity
 import android.content.Context
 
-val nodes : Int = 5
+val nodes : Int = 3
 val circles : Int = 4
 val scGap : Float = 0.05f
 val scDiv : Double = 0.51
 val strokeFactor : Int = 90
 val sizeFactor : Float = 2.8f
 val foreColor : Int = Color.parseColor("#311B92")
-val backColor : Int = Color.parseColor("#BDBDBD")
+val backColor : Int = Color.parseColor("#212121")
+val delay : Long = 20
 val rFactor : Float = 5.9f
 
 fun Int.inverse() : Float = 1f / this
@@ -42,8 +43,8 @@ fun Canvas.drawShiftedCircleLine(r : Float, br : Float, sc1 : Float, sc2 : Float
         save()
         translate(0f, 0f)
         rotate(45f * j * sc2)
-        drawLine(-br, 0f, -br + x, 0f, paint)
-        drawCircle(0f, 0f, br, paint)
+        drawLine(0f, 0f, -br * sc1 + x, 0f, paint)
+        drawCircle(x, 0f, br, paint)
         restore()
     }
 }
@@ -60,7 +61,7 @@ fun Canvas.drawCSRLNode(i : Int, scale : Float, paint : Paint) {
     paint.setStyle(w, h)
     save()
     translate(w / 2, gap * (i + 1))
-    for (j in 0..circles) {
+    for (j in 0..(circles - 1)) {
         save()
         rotate(rotDeg * j)
         drawShiftedCircleLine(size, br, sc1.divideScale(j, circles), sc2.divideScale(j, circles), paint)
@@ -113,7 +114,7 @@ class CircleShifterRotLineView(ctx : Context) : View(ctx) {
             if (animated) {
                 cb()
                 try {
-                    Thread.sleep(50)
+                    Thread.sleep(delay)
                     view.invalidate()
                 } catch(ex : Exception) {
 
